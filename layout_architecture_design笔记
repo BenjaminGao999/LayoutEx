@@ -1,0 +1,21 @@
+1、状态保存
+包含2层含义：
+     保存view实例
+     销毁view实例，但在view实例销毁之前保存数据。
+
+1）dalvik vm heap 中保存
+      保存view实例。
+      u know，javabean作为数据的载体并没有多大，保存了javabean就能实现view的状态保存；
+      针对图片，由于存在lru cache保存，实际上也就实现了图片的状态保存。
+      在disk storage 中保存数据是为了减轻 dalvik vm heap的负担，针对页面占内存较小的情况，可以保存view实例至 dalvik vm heap里。
+      如此看来，disk storage保存页面信息也就用不到了。
+
+2）disk storage  中保存
+      在 disk storage 中无法保存view实例，因为view及其子view不支持实现Parcelable接口。
+      销毁view实例，但在view实例销毁之前保存数据。
+
+
+2、对于普通功能模块页面同一时刻只允许存在单个实例
+   pop页面独立于功能模块页面，以及背景页也和其他页面相互独立，故pop页面和功能模块页面可同时并存。
+   并且pop页面PopStackManager和功能模块页面PageStackManager相互独立。
+
